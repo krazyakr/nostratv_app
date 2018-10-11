@@ -6,6 +6,9 @@ from Components.ActionMap import ActionMap
 from enigma import getDesktop
 from Tools.Directories import fileExists
 
+import api as API
+import log
+
 class MainViewEnigma2(Screen):
     screenWidth = getDesktop(0).size().width()-10
     screenHeigth = getDesktop(0).size().heigth()-10
@@ -37,8 +40,22 @@ class MainViewEnigma2(Screen):
 
         self["myLabel"] = Label("WIP :)")
         # self['myMenu'].hide()
+
+        events = API.GetEventsFromSource('nflfullhd')['events']
+        list = []
+        for event in events:
+            list.append( ( event['title'], event['id'] ) )
+        
+        self["myLabel"] = Label("List") 
+
+        self['myMenu'] = MenuList(list)
+        actions['ok'] = self.go
         
         self["myActionMap"] = ActionMap(["SetupActions"], actions, -1)
+
+    def go(self):
+        returnValue = self["myMenu"].l.getCurrentSelection()[1]
+        log.d('Plugin | List Selected: {0}'.format(returnValue) )
 
 def main(session, **kwargs):
     session.open(MainViewEnigma2)
