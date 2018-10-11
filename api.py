@@ -43,3 +43,13 @@ def GetEventData(eventJson):
         return json.loads(response)
     else:
         return None
+
+def GetStream(linkJson):
+    url = __baseUrl + linkJson['self']
+
+    response = __getContent(url)
+    
+    if response != None:
+        return json.loads(response)
+    else:
+        return None
