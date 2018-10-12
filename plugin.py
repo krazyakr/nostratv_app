@@ -12,31 +12,18 @@ import log
 class MainViewEnigma2(Screen):
     screenWidth = getDesktop(0).size().width()-10
     screenHeight = getDesktop(0).size().height()-10
-    skin = """<screen position="center,center" size=""" + screenWidth + """,""" + screenHeight + """ title="NOStraTV App" >
+    skin = """<screen position="center,center" size=""" + str(screenWidth) + """,""" + str(screenHeight) + """ title="NOStraTV App" >
             <widget name="myLabel" position="center,10" size="720,50" font="Regular;20"/>
             <widget name="myMenu" position="center,60" size="720,454" scrollbarMode="showOnDemand" />
             </screen>"""
-    # if screenWidth and screenWidth == 1280:
-    #     skin = """<screen position="center,center" size="730,514" title="NOStraTV App" >
-    #         <widget name="myLabel" position="center,10" size="720,50" font="Regular;20"/>
-    #         <widget name="myMenu" position="center,60" size="720,454" scrollbarMode="showOnDemand" />
-    #         </screen>"""
-    # elif screenWidth and screenWidth == 1920:
-    #     skin = """<screen position="center,center" size="1095,771" title="NOStraTV App" >
-    #         <widget name="myLabel" position="center,center" size="1085,761" font="Regular;20"/>
-    #         </screen>"""
-    # else:
-    #     skin = """<screen position="center,center" size="630,370" title="NOStraTV App" >
-    #         <widget name="myLabel" position="center,center" size="620,370" font="Regular;20"/>
-    #         </screen>"""
 
     def __init__(self, session, args = None):
         self.session = session
 
-        events = API.GetEventsFromSource('nflfullhd')['events']
-        list = []
-        for event in events:
-            list.append( ( str(event['title']), str(event['id']) ) )
+        # events = API.GetEventsFromSource('nflfullhd')['events']
+        # list = []
+        # for event in events:
+        #     list.append( ( str(event['title']), str(event['id']) ) )
 
         Screen.__init__(self, session)
 
@@ -46,14 +33,14 @@ class MainViewEnigma2(Screen):
         
         self["myLabel"] = Label("List") 
 
-        self['myMenu'] = MenuList(list)
-        actions['ok'] = self.go
+        # self['myMenu'] = MenuList(list)
+        # actions['ok'] = self.go
         
         self["myActionMap"] = ActionMap(["SetupActions"], actions, -1)
 
     def go(self):
         returnValue = self["myMenu"].l.getCurrentSelection()[1]
-        log.d('Plugin | List Selected: {0}'.format( str( returnValue ) )
+        log.d('Plugin | List Selected: {0}'.format( str( returnValue ) ) )
 
 def main(session, **kwargs):
     session.open(MainViewEnigma2)
