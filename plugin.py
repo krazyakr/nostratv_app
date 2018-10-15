@@ -44,12 +44,16 @@ import log
 #         log.d('Plugin | List Selected: {0}'.format( str( returnValue ) ) )
 
 class MainViewEnigma2(Screen):
-    screenWidth = getDesktop(0).size().width()-50
-    screenHeight = getDesktop(0).size().height()-10
+    screenWidth = getDesktop(0).size().width()
+    screenHeight = getDesktop(0).size().height()
+
+    windowWidth = 1050
+    windowHeight = 550
+
     skin = """
         <screen position="{0},{1}" size="{2},{3}" title="{4}" >
             <widget name="myLabel" position="10,60" size="200,200" font="Regular;20"/>
-        </screen>""".format('5', '5', str(screenWidth), str(screenHeight), 'NOStraTV App')
+        </screen>""".format('100', '100', str(windowWidth), str(windowHeight), 'NOStraTV App')
     
     def __init__(self, session, args = 0):
         self.session = session
