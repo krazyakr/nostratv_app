@@ -30,7 +30,7 @@ def GetEventsFromSource(source):
     response = __getContent(url)
     
     if response != None:
-        return json.loads(response)
+        return json.loads(response)['events']
     else:
         return None
 
@@ -40,7 +40,7 @@ def GetEventData(eventJson):
     response = __getContent(url)
     
     if response != None:
-        return json.loads(response)
+        return json.loads(response)['event']
     else:
         return None
 
@@ -50,6 +50,6 @@ def GetStream(linkJson):
     response = __getContent(url)
     
     if response != None:
-        return json.loads(response)
+        return json.loads(response)['stream']
     else:
         return None

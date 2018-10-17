@@ -1,20 +1,73 @@
 import api as API
+import os
 
-events = API.GetEventsFromSource('nflfullhd')['events']
-event = API.GetEventData( events[0] )['event']
+events = API.GetEventsFromSource('nflfullhd')
 
-print ''
-print 'Name: ' + event['title']
-print 'id: ' + event['id']
-print ''
-for stream in event['streams']:
-    print "\tName: {0}".format(stream['name'])
-    for link in stream['links']:
-        print "\t\tId: {0}\tlink: {1}".format( link['id'], link['self'] )
+os.system('clear')
+print '****************************************'
+print '*           NFL Full Games             *'
+print '****************************************'
+index = 0
+for event in events:
+    print '*  {0}\t-  {1}'.format(str(index), event['title'])
+    index = index + 1
 
-        _stream = API.GetStream(link)
-        if(_stream != None and 'stream' in _stream ):
-            _stream = _stream['stream']
-            if( 'links' in _stream ):
-                for _link in _stream['links']:
-                    print '\t\t\t{0} - {1}'.format( _link['name'], _link['url'] )
+print '****************************************'
+selected = raw_input("* > ")
+
+event = events[int(selected)]
+
+os.system('clear')
+print '****************************************'
+print 'You selected \'{0}\''.format(event['title'])
+print '****************************************'
+
+eventData = API.GetEventData(event)
+print str(eventData)
+
+print '****************************************'
+print '*             Streams                  *'
+print '****************************************'
+streams = eventData['streams']
+index = 0
+for stream in streams:
+    print '* {0}\t- {1}'.format(str(index), stream['name'])
+    index = index + 1
+
+print '****************************************'
+selected = raw_input("* > ")
+
+stream = streams[int(selected)]
+os.system('clear')
+print '****************************************'
+print 'You selected \'{0}\' from \'{1}\''.format(stream['name'], event['title'])
+print '****************************************'
+
+links = stream['links']
+index = 0
+for link in links:
+    print '* {0}\t- {1}'.format(str(index), link['id'])
+    index = index + 1
+print '****************************************'
+selected = raw_input("* > ")
+
+link = links[int(selected)]
+os.system('clear')
+print '****************************************'
+print 'You selected \'{0} | {1}\' from \'{2}\''.format(stream['name'], link['id'], event['title'])
+print '****************************************'
+
+streamDetail = API.GetStream(link)
+print str(streamDetail)
+
+streamLinks = streamDetail['links']
+index = 0
+for link in streamLinks:
+    print '* {0}\t- {1}'.format(str(index), link['name'])
+    index = index + 1
+print '****************************************'
+selected = raw_input("* > ")
+
+streamLink = streamLinks[int(selected)]
+
+print streamLink['url']
