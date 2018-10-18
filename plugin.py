@@ -51,14 +51,24 @@ class MainViewEnigma2(Screen):
     windowHeight = 550
 
     skin = """
-        <screen position="{0},{1}" size="{2},{3}" title="{4}" >
-            <widget name="myLabel" position="10,60" size="200,200" font="Regular;20"/>
-        </screen>""".format('100', '100', str(windowWidth), str(windowHeight), 'NOStraTV App')
+        <screen position="center,center" size="{0},{1}" title="{2}" >
+            <widget name="myLabel" position="center,10" size="720,50" font="Regular;20"/>
+            <widget name="myMenu" position="center,60" size="720,470" scrollbarMode="showOnDemand" />
+        </screen>""".format( str(windowWidth), str(windowHeight), 'NOStraTV App' )
     
     def __init__(self, session, args = 0):
         self.session = session
         Screen.__init__(self, session)
-        self["myLabel"] = Label(_("please press OK\nWith: {0}\nHeight: {1}".format(str(MainViewEnigma2.screenWidth), str(MainViewEnigma2.screenHeight))))
+
+        events = API.GetEventsFromSource('nflfullhd')
+        eventslist = []
+        for event in events:
+            title = str(event['title'])
+            id = str(event['id'])
+            eventslist.append( (title,id) )
+
+        self["myLabel"] = Label(_(" "))
+        self["myMenu"] = MenuList(eventslist)
         self["myActionMap"] = ActionMap(["SetupActions"],
         {
             "ok": self.myMsg,
